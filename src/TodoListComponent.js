@@ -22,7 +22,7 @@ function TodoListComponent(props) {
                                 alignItems="center"
                                 justify="space-between"
                                 >
-                                    <Grid item>
+                                    <Grid item style={{marginTop: '1.2rem'}}> 
                                         <Typography variant="h6"
                                         style={{textDecoration: getTextDecor(todo.done)}}>
                                         {todo.val}
@@ -35,7 +35,7 @@ function TodoListComponent(props) {
                                     label={todo.priority}
                                     size="small"
                                     onClick= {() =>{
-                                        props.handleEditClick(todo.priority)
+                                        props.handlePriorityClick(todo.priority)
                                     }}>
                                     </Chip>
                                     </Grid>

@@ -17,8 +17,8 @@ const FormComponent = ({formik}) => {
                 value= {formik.values.todoText}
             />
 
-                    <FormControl variant="outlined" style={{width:'100%'}}>
-                        <InputLabel id="priorutyLabel">Priority</InputLabel>
+                    <FormControl variant="outlined" style={{width:'100%'}} >
+                        <InputLabel id="priorutyLabel" style={{marginTop: '1rem'}}>Priority</InputLabel>
                         <Select
                             labelId="PriorityLabel"
                             Label="Priority"

@@ -6,6 +6,7 @@ import HeaderComponent from './HeaderComponent';
 import TodoListComponent from './TodoListComponent'
 import FormDialogComponent from './FormDialogComponent';
 import { useFormik } from 'formik';
+import {Chip} from '@material-ui/core';
 
 // local storage
 function useLocalStorageState(key, defaultValue = '') {
@@ -73,8 +74,9 @@ function App() {
 
 
 
-const [todos, setTodos] = useState([{id: 1, val:'todoTt', priority:'LOw', dueDate:'2020-03-24', done: false}, {id: 2, val:'todogxt', priority:'LOw', dueDate:'2020-03-24', done: false}, {id: 3, val:'todgext', priority:'LOw', dueDate:'2020-03-24', done: false}, {id: 4, val:'todoText', priority:'LOw', dueDate:'2020-03-24', done: false}]);
+const [todos, setTodos] = useState([{id: 1, val:'todoTt', priority:'high', dueDate:'2020-03-24', done: false}, {id: 2, val:'todogxt', priority:'LOw', dueDate:'2020-03-24', done: false}, {id: 3, val:'todgext', priority:'high', dueDate:'2020-03-24', done: false}, {id: 4, val:'todoText', priority:'LOw', dueDate:'2020-03-24', done: false}]);
 
+const [filteredTodos,setFilteredTodos] = useState([]);
 const [isDialogOpen, setIsDialogOpen] = useState(false);
 const [isEditMode, setIsEditMode] = useState(false);
 const [editTodo, setEditTodo] = useState({}); 
@@ -85,7 +87,7 @@ useEffect(() => {
     if(isEditMode) setIsEditMode(false);
 
   }
-})
+}, [isDialogOpen])
 
 useEffect(() => {
   if(isEditMode){
@@ -100,7 +102,11 @@ useEffect(() => {
   }
 },[isEditMode])
    
-  
+  useEffect((t)=>{
+    setFilteredTodos(todos.filter(t=> t.priority== priorityFilter))
+  },[priorityFilter])
+
+
 const handleDialogOpen = () =>{
   setIsDialogOpen(true);
 }
@@ -122,7 +128,7 @@ const handleSubmit =(e) => {
         setTodos([...todos, {id: uuid(), val: todoText, priority: priority, dueDate: dueDate}]);
       }else{
         const newTodos = [...todos];
-        const t=newTodos.find(t => t.id === editTodo.id);
+        const t=newTodos.find(t => t.id == editTodo.id);
         t.val = todoText;
         t.priority  = priority;
         t.dueDate = dueDate;
@@ -145,6 +151,11 @@ const handleDelete = (id) => {
 const handlePriorityClick = (priority) =>{
   setPriorityFilter(priority)
 }
+
+const handlePriorityFilterDelete= () =>{
+  setPriorityFilter('')
+
+}
 const formik = useFormik({
       initialValues: {
         todoText: ' ',
@@ -161,7 +172,15 @@ const formik = useFormik({
       <HeaderComponent
         handleFabClick={handleDialogOpen}
       />
+      {priorityFilter == ''?null: <Chip
+        label={priorityFilter}
+        onDelete = {handlePriorityFilterDelete}
+        color="secondary"
+        style={{marginTop: '2rem'}}
+        />
+      }
       <TodoListComponent
+        // todos={priorityFilter==''? todos: filteredTodos}
         todos={todos}
         handleEditClick={handleEditClick}
         handleDelete={handleDelete}
