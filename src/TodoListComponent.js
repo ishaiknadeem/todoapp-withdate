@@ -3,6 +3,15 @@ import {ButtonGroup, IconButton, Chip, Grid, Paper, Typography} from '@material-
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Zoom from '@material-ui/core/Zoom';
+
+
+import './todo.css'
+
+
+
+
 
 const getTextDecor = (done) => {
     return (done? 'line-through': 'none')
@@ -13,10 +22,13 @@ function TodoListComponent(props) {
         <Grid container direction="column" spacing={2} style={{marginTop: '1.2rem'}}
         >
             {
-                props.todos.map((todo) =>{
+                props.todos.map(todo =>{
                 
                     return (
-                        <Grid item key={todo.id}>
+                    
+                        <Zoom in={true} style={{ transitionDelay: '500ms' }}>
+
+                        <Grid item>
                             <Paper style={{padding:'0.8rem'}} elevation={3}>
                                 <Grid container 
                                 alignItems="center"
@@ -72,11 +84,15 @@ function TodoListComponent(props) {
                                         </IconButton>
                                         </ButtonGroup>
                             </Paper>
+
                         </Grid>
+
+                        </Zoom>
                     )
                 })
             }
         </Grid>
+
     );
 }
 
